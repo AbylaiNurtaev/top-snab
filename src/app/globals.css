@@ -26,6 +26,25 @@ body {
   /* color: #222; */
 }
 
+body {
+  background-color: #1363e0;
+  background-image: repeating-linear-gradient(
+      0deg,
+      rgba(255, 255, 255, 0.08) 0px,
+      rgba(255, 255, 255, 0.08) 1px,
+      transparent 1px,
+      transparent 100px
+    ),
+    repeating-linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0.08) 0px,
+      rgba(255, 255, 255, 0.08) 1px,
+      transparent 1px,
+      transparent 100px
+    );
+  background-attachment: fixed;
+}
+
 * {
   box-sizing: border-box;
   padding: 0;
@@ -53,4 +72,31 @@ a {
 
 * {
   font-family: "Steppe", sans-serif;
+}
+
+.hero-background {
+  position: relative;
+  padding-bottom: 100px;
+}
+
+#cursor-glow {
+  position: fixed;
+  top: -250px;
+  left: -250px;
+  width: 500px;
+  height: 500px;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(150, 255, 2, 0.8) 0%,
+    rgba(183, 255, 2, 0.4) 25%,
+    rgba(129, 215, 30, 0.2) 50%,
+    rgba(95, 215, 30, 0) 60%
+  );
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+  transition: transform 0.2s ease-out;
+  z-index: 1;
+  mix-blend-mode: screen;
+  filter: blur(2px);
 }

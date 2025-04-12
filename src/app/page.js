@@ -9,9 +9,12 @@ import Footer from "@/components/Footer/Footer";
 export default function Home() {
   return (
     <div>
-      <Header />
-      <Stroke />
-      <Stats />
+      <div className="hero-background">
+        <Header />
+        <Stroke />
+        <Stats />
+      </div>
+
       <Advantages />
       <Contacts />
       <Footer />

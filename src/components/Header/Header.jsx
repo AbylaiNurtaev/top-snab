@@ -15,13 +15,7 @@ export default function Header() {
     <header className="header">
       <div className="container">
         <div className="header__logo">
-          <Image
-            src="/images/logo.svg"
-            alt="Logo"
-            width={149}
-            height={62}
-            priority
-          />
+          <h1 style={{ color: "white", fontWeight: "bolder" }}>WARMM</h1>
         </div>
 
         <div className={`header__nav ${isMenuOpen ? "header__nav--open" : ""}`}>
@@ -49,7 +43,7 @@ export default function Header() {
             <a href="tel:+79214165320">+7 (921) 416-53-20</a>
             <a href="mailto:ma.warmmrus@gmail.com">ma.warmmrus@gmail.com</a>
           </div>
-          <button className="header__btn">Заказать звонок</button>
+          <button className="header__btn">Я строитель</button>
         </div>
 
         <button

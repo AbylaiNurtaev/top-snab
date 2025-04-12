@@ -10,113 +10,63 @@ export default function Stats() {
   const [count450, ref450] = useCountAnimation(450, 2.5);
 
   return (
-    <div className="stats">
-      <div className="stats__top">
-        <motion.h1
-          className="stats__title"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-        >
-          Top-Snab
-        </motion.h1>
-        <div className="stats__info">
-          <motion.h2
-            className="stats__subtitle"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-          >
-            Вы выбираете комфорт и долговечность!
-          </motion.h2>
-          <motion.p
-            className="stats__description"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.4 }}
-          >
-            Идеально подходит для монтажа в жилых и коммерческих помещениях,
-            обеспечивая комфортный микроклимат даже в самых холодных регионах.
-          </motion.p>
-        </div>
-      </div>
-
-      <div className="stats__numbers">
+    <section className="stats">
+      <div className="stats__content">
         <motion.div
-          className="stats__number-item"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.6 }}
+          className="stats__left"
+          initial={{ opacity: 0, x: -60 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          transition={{ duration: 1 }}
         >
-          <motion.div
-            className="stats__number"
-            ref={ref150}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.5 }}
-          >
-            <motion.span
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.5 }}
-            >
-              {count150}
-            </motion.span>
-          </motion.div>
-          <p className="stats__label">
-            позиций инженерной сантехники в наличии
+          <h1 className="stats__title">WARMM</h1>
+          <h2 className="stats__subtitle">
+            Комфорт. Надёжность. Будущее вашего дома.
+          </h2>
+          <p className="stats__description">
+            Мы специализируемся на поставках инженерной сантехники и деталей
+            трубопровода. Каждая позиция в наличии, каждый проект — с заботой о
+            деталях.
           </p>
+          <motion.button
+            className="stats__cta-button"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.97 }}
+          >
+            Заказать звонок
+          </motion.button>
         </motion.div>
 
         <motion.div
-          className="stats__number-item"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.8 }}
+          className="stats__right"
+          initial={{ opacity: 0, x: 60 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          transition={{ duration: 1 }}
         >
-          <motion.div
-            className="stats__number"
-            ref={ref12}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.5 }}
-          >
-            <motion.span
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.5 }}
-            >
-              {count12}
-            </motion.span>
-          </motion.div>
+          <div className="stats__number-item">
+            <div className="stats__number-glow" />
+            <div className="stats__number" ref={ref150}>
+              <span>{count150}</span>
+            </div>
+            <p className="stats__label">позиций в наличии</p>
+          </div>
 
-          <p className="stats__label">лет на рынке поставок</p>
-        </motion.div>
+          <div className="stats__number-item">
+            <div className="stats__number-glow" />
+            <div className="stats__number" ref={ref12}>
+              <span>{count12}</span>
+            </div>
+            <p className="stats__label">лет опыта</p>
+          </div>
 
-        <motion.div
-          className="stats__number-item"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 1 }}
-        >
-          <motion.div
-            className="stats__number"
-            ref={ref450}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.5 }}
-          >
-            <motion.span
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.5 }}
-            >
-              {count450}
-            </motion.span>
-          </motion.div>
-          <p className="stats__label">успешно выполненных проектов</p>
+          <div className="stats__number-item">
+            <div className="stats__number-glow" />
+            <div className="stats__number" ref={ref450}>
+              <span>{count450}</span>
+            </div>
+            <p className="stats__label">успешных проектов</p>
+          </div>
         </motion.div>
       </div>
-    </div>
+    </section>
   );
 }

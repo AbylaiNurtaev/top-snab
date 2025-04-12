@@ -20,7 +20,7 @@
 
 .heading {
   font-size: 48px;
-  color: #de5264;
+  color: rgb(255, 255, 255);
   font-weight: 700;
 }
 
@@ -31,14 +31,14 @@
 
 .label {
   font-size: 24px;
-  color: #0d4470;
-  font-weight: 600;
+  color: #ccff2b;
+  font-weight: 900;
   margin-bottom: 8px;
 }
 
 .text {
   font-size: 16px;
-  color: #3a3a3a;
+  color: rgb(255, 255, 255);
   line-height: 1.5;
 }
 
@@ -52,7 +52,7 @@
 
 .description {
   font-size: 16px;
-  color: #3a3a3a;
+  color: rgb(255, 255, 255);
   max-width: 1100px;
   line-height: 1.6;
 }
