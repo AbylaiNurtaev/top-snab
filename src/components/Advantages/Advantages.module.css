@@ -66,12 +66,12 @@
   width: 80px;
   height: 80px;
   margin-bottom: 24px;
+}
 
-  img {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-  }
+.iconWrapper :global(img) {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
 }
 
 .cardTitle {
