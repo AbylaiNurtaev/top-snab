@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import Image from "next/image";
 import { useCountAnimation } from "../../hooks/useCountAnimation";
 import "./Stats.scss";
 
@@ -11,61 +12,98 @@ export default function Stats() {
 
   return (
     <section className="stats">
-      <div className="stats__content">
+      <div className="stats__content-wrapper relative">
+        {/* Левый персонаж с анимацией */}
         <motion.div
-          className="stats__left"
-          initial={{ opacity: 0, x: -60 }}
-          whileInView={{ opacity: 1, x: 0 }}
+          className="stats__character-left"
+          initial={{ x: -100, opacity: 0 }}
+          whileInView={{ x: 0, opacity: 1 }}
           transition={{ duration: 1 }}
         >
-          <h1 className="stats__title">WARMM</h1>
-          <h2 className="stats__subtitle">
-            Комфорт. Надёжность. Будущее вашего дома.
-          </h2>
-          <p className="stats__description">
-            Мы специализируемся на поставках инженерной сантехники и деталей
-            трубопровода. Каждая позиция в наличии, каждый проект — с заботой о
-            деталях.
-          </p>
-          <motion.button
-            className="stats__cta-button"
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.97 }}
+          <Image
+            src="/images/worker-left.png"
+            alt="Worker Left"
+            width={200}
+            height={500}
+            style={{ width: "auto", height: "500px" }}
+            priority
+          />
+        </motion.div>
+
+        {/* Правый персонаж с анимацией */}
+        <motion.div
+          className="stats__character-right"
+          initial={{ x: 100, opacity: 0 }}
+          whileInView={{ x: 0, opacity: 1 }}
+          transition={{ duration: 1 }}
+        >
+          <Image
+            src="/images/worker-right.png"
+            alt="Worker Right"
+            width={200}
+            height={500}
+            style={{ width: "auto", height: "500px" }}
+            priority
+          />
+        </motion.div>
+
+        {/* Основной контент */}
+        <div className="stats__content">
+          <motion.div
+            className="stats__left"
+            initial={{ opacity: 0, x: -60 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            transition={{ duration: 1 }}
           >
-            Заказать звонок
-          </motion.button>
-        </motion.div>
+            <h1 className="stats__title">WARMM</h1>
+            <h2 className="stats__subtitle">
+              Комфорт. Надёжность. Будущее вашего дома.
+            </h2>
+            <p className="stats__description">
+              Мы специализируемся на поставках инженерной сантехники и деталей
+              трубопровода. Каждая позиция в наличии, каждый проект — с заботой
+              о деталях.
+            </p>
+            <motion.button
+              className="stats__cta-button"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.97 }}
+            >
+              Заказать звонок
+            </motion.button>
+          </motion.div>
 
-        <motion.div
-          className="stats__right"
-          initial={{ opacity: 0, x: 60 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          transition={{ duration: 1 }}
-        >
-          <div className="stats__number-item">
-            <div className="stats__number-glow" />
-            <div className="stats__number" ref={ref150}>
-              <span>{count150}</span>
+          <motion.div
+            className="stats__right"
+            initial={{ opacity: 0, x: 60 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            transition={{ duration: 1 }}
+          >
+            <div className="stats__number-item">
+              <div className="stats__number-glow" />
+              <div className="stats__number" ref={ref150}>
+                <span>{count150}</span>
+              </div>
+              <p className="stats__label">позиций в наличии</p>
             </div>
-            <p className="stats__label">позиций в наличии</p>
-          </div>
 
-          <div className="stats__number-item">
-            <div className="stats__number-glow" />
-            <div className="stats__number" ref={ref12}>
-              <span>{count12}</span>
+            <div className="stats__number-item">
+              <div className="stats__number-glow" />
+              <div className="stats__number" ref={ref12}>
+                <span>{count12}</span>
+              </div>
+              <p className="stats__label">лет опыта</p>
             </div>
-            <p className="stats__label">лет опыта</p>
-          </div>
 
-          <div className="stats__number-item">
-            <div className="stats__number-glow" />
-            <div className="stats__number" ref={ref450}>
-              <span>{count450}</span>
+            <div className="stats__number-item">
+              <div className="stats__number-glow" />
+              <div className="stats__number" ref={ref450}>
+                <span>{count450}</span>
+              </div>
+              <p className="stats__label">успешных проектов</p>
             </div>
-            <p className="stats__label">успешных проектов</p>
-          </div>
-        </motion.div>
+          </motion.div>
+        </div>
       </div>
     </section>
   );

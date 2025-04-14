@@ -7,43 +7,38 @@ import styles from "./Advantages.module.css";
 const advantages = [
   {
     title: "Высокое качество",
-    description: "Мы являемся официальными представителями марок WARMM, ICMA",
-    icon: "/images/image1.svg",
+    description: "Официальные представители марок WARMM, ICMA.",
+    icon: "/images/advantage1.png",
   },
   {
     title: "Оперативность",
-    description:
-      "Наш центральный офис находится в Санкт-Петербурге, поэтому мы обеспечиваем оперативную доставку нашим клиентам",
-    icon: "/images/image2.svg",
+    description: "Офис в СПБ. Быстрая доставка клиентам.",
+    icon: "/images/advantage2.png",
   },
   {
     title: "Хорошая поддержка",
-    description:
-      "Благодаря эксклюзивным контрактам мы предлагаем нашим партнерам лучшие условия сотрудничества.",
-    icon: "/images/image3.svg",
+    description: "Предлагаем лучшие условия сотрудничества.",
+    icon: "/images/advantage3.png",
   },
   {
     title: "Эффективные услуги",
-    description:
-      "Работая с нами, Вы приобретаете уверенность в гарантированно добросовестном и взаимовыгодном сотрудничестве.",
-    icon: "/images/image4.svg",
+    description: "Честность, выгода и надёжность.",
+    icon: "/images/advantage4.png",
   },
   {
     title: "Индивидуальный подход",
-    description:
-      "Динамично развивающийся рынок и растущие потребности наших клиентов стимулируют нас к развитию и расширению ассортимента.",
-    icon: "/images/image5.svg",
+    description: "Адаптация под клиента и расширение ассортимента.",
+    icon: "/images/advantage5.png",
   },
   {
     title: "Уникальный опыт",
-    description:
-      "Специализация Top-Snab основывается на работе с производственными предприятиями, а также со строительными и оптовыми компаниями.",
-    icon: "/images/image6.svg",
+    description: "Работа с производственными и строительными компаниями.",
+    icon: "/images/advantage6.png",
   },
 ];
 
 const cardVariants = {
-  hidden: { opacity: 0, y: 20 },
+  hidden: { opacity: 0, y: 30 },
   visible: (i) => ({
     opacity: 1,
     y: 0,
@@ -58,6 +53,8 @@ const cardVariants = {
 const Advantages = () => {
   return (
     <section className={styles.container}>
+      <h2 className={styles.sectionTitle}>Наши преимущества</h2>
+
       <div className={styles.grid}>
         {advantages.map((advantage, index) => (
           <motion.div
@@ -69,12 +66,11 @@ const Advantages = () => {
             viewport={{ once: true }}
             custom={index}
           >
-            <div
-              className={styles.icon}
-              style={{ backgroundImage: `url(${advantage.icon})` }}
-            />
-            <h3 className={styles.title}>{advantage.title}</h3>
-            <p className={styles.description}>{advantage.description}</p>
+            <div className={styles.iconWrapper}>
+              <img src={advantage.icon} alt={advantage.title} />
+            </div>
+            <h3 className={styles.cardTitle}>{advantage.title}</h3>
+            <p className={styles.cardDescription}>{advantage.description}</p>
           </motion.div>
         ))}
       </div>

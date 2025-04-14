@@ -31,14 +31,14 @@
 
 .label {
   font-size: 24px;
-  color: #ccff2b;
+  color:rgb(255, 255, 255);
   font-weight: 900;
   margin-bottom: 8px;
 }
 
 .text {
   font-size: 16px;
-  color: rgb(255, 255, 255);
+  color: rgb(204, 204, 204);
   line-height: 1.5;
 }
 
@@ -52,7 +52,7 @@
 
 .description {
   font-size: 16px;
-  color: rgb(255, 255, 255);
+  color: rgb(204, 204, 204);
   max-width: 1100px;
   line-height: 1.6;
 }
