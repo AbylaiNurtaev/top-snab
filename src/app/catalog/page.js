@@ -35,8 +35,10 @@ export default function CatalogPage() {
       const productsData = await productsRes.json();
       const categoriesData = await categoriesRes.json();
       
-      // Проверяем, что productsData является массивом
-      setProducts(Array.isArray(productsData) ? productsData : []);
+      console.log('Полученные данные:', { productsData, categoriesData });
+      
+      // Проверяем, что productsData.products является массивом
+      setProducts(Array.isArray(productsData.products) ? productsData.products : []);
       setCategories(Array.isArray(categoriesData) ? categoriesData : []);
       setLoading(false);
     } catch (error) {
