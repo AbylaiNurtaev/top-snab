@@ -7,6 +7,7 @@ import Link from 'next/link';
 import styles from './catalog.module.css';
 import Header from '@/components/Header/Header';
 import Footer from '@/components/Footer/Footer';
+import { useCart } from "@/context/CartContext";
 
 export default function CatalogPage() {
   const router = useRouter();
@@ -16,6 +17,7 @@ export default function CatalogPage() {
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('');
+  const { addToCart, cart } = useCart();
 
   useEffect(() => {
     const category = searchParams.get('category');
@@ -78,6 +80,54 @@ export default function CatalogPage() {
       style: 'currency',
       currency: 'RUB'
     }).format(price);
+  };
+
+  // Функция для преобразования JSON-описания в HTML
+  const convertDescriptionToHtml = (description) => {
+    if (!description) return 'Описание отсутствует';
+    
+    try {
+      // Пробуем распарсить как JSON
+      const rawContent = JSON.parse(description);
+      
+      // Преобразуем rawContent в HTML
+      let htmlContent = '';
+      rawContent.blocks.forEach(block => {
+        let text = block.text;
+        
+        // Применяем стили
+        block.inlineStyleRanges.forEach(style => {
+          const start = style.offset;
+          const end = start + style.length;
+          const styledText = text.substring(start, end);
+          
+          switch (style.style) {
+            case 'BOLD':
+              text = text.substring(0, start) + `<strong>${styledText}</strong>` + text.substring(end);
+              break;
+            case 'ITALIC':
+              text = text.substring(0, start) + `<em>${styledText}</em>` + text.substring(end);
+              break;
+            case 'UNDERLINE':
+              text = text.substring(0, start) + `<u>${styledText}</u>` + text.substring(end);
+              break;
+            case 'STRIKETHROUGH':
+              text = text.substring(0, start) + `<s>${styledText}</s>` + text.substring(end);
+              break;
+            default:
+              break;
+          }
+        });
+        
+        // Добавляем перенос строки после каждого блока
+        htmlContent += text + '<br/>';
+      });
+      
+      return htmlContent;
+    } catch (e) {
+      // Если не JSON, возвращаем как есть
+      return description;
+    }
   };
 
   if (loading) {
@@ -153,9 +203,12 @@ export default function CatalogPage() {
                       {categories.find(c => c._id === product.categoryId)?.name || 'Без категории'}
                     </div>
                     <h2 className={styles.productName}>{product.name}</h2>
-                    <p className={styles.productDescription}>
-                      {product.description || 'Описание отсутствует'}
-                    </p>
+                    <div 
+                      className={styles.productDescription}
+                      dangerouslySetInnerHTML={{ 
+                        __html: convertDescriptionToHtml(product.description) 
+                      }}
+                    />
                   </div>
                   <div className={styles.productFooter}>
                     <div className={styles.productPrice}>
@@ -166,10 +219,12 @@ export default function CatalogPage() {
                       disabled={!product.inStock}
                       onClick={(e) => {
                         e.preventDefault();
-                        // Здесь будет логика добавления в корзину
+                        addToCart(product);
                       }}
                     >
-                      В корзину
+                      {cart.find(item => item._id.toString() === product._id.toString())
+                        ? 'В корзине'
+                        : 'В корзину'}
                     </button>
                   </div>
                 </Link>

@@ -1,0 +1,76 @@
+.formattedText {
+  font-size: 16px;
+  line-height: 1.5;
+  color: #333;
+}
+
+.formattedText p {
+  margin: 0 0 1em;
+}
+
+.formattedText ul,
+.formattedText ol {
+  margin: 0 0 1em;
+  padding-left: 1.5em;
+}
+
+.formattedText h1,
+.formattedText h2,
+.formattedText h3,
+.formattedText h4,
+.formattedText h5,
+.formattedText h6 {
+  margin: 1.5em 0 0.5em;
+  line-height: 1.2;
+}
+
+.formattedText h1 {
+  font-size: 2em;
+}
+.formattedText h2 {
+  font-size: 1.75em;
+}
+.formattedText h3 {
+  font-size: 1.5em;
+}
+.formattedText h4 {
+  font-size: 1.25em;
+}
+.formattedText h5 {
+  font-size: 1.1em;
+}
+.formattedText h6 {
+  font-size: 1em;
+}
+
+.formattedText a {
+  color: #0070f3;
+  text-decoration: none;
+}
+
+.formattedText a:hover {
+  text-decoration: underline;
+}
+
+.formattedText blockquote {
+  margin: 0 0 1em;
+  padding: 0.5em 1em;
+  border-left: 4px solid #e0e0e0;
+  background-color: #f8f9fa;
+}
+
+.formattedText pre {
+  margin: 0 0 1em;
+  padding: 1em;
+  background-color: #f8f9fa;
+  border-radius: 4px;
+  overflow-x: auto;
+}
+
+.formattedText code {
+  font-family: monospace;
+  background-color: #f8f9fa;
+  padding: 0.2em 0.4em;
+  border-radius: 3px;
+  font-size: 0.9em;
+}

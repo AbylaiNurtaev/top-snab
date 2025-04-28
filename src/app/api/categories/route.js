@@ -12,6 +12,7 @@ export async function GET(request) {
     const categories = database.collection('categories');
 
     const result = await categories.find({}).toArray();
+    console.log('Результат запроса категорий:', result);
     return NextResponse.json(result);
   } catch (error) {
     console.error('Ошибка при получении категорий:', error);

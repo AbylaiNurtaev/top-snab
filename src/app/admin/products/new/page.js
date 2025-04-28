@@ -2,6 +2,9 @@
 
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import { EditorState, convertToRaw } from 'draft-js';
+import { Editor } from 'react-draft-wysiwyg';
+import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import styles from '../../../admin/admin.module.css';
 
 const NewProductPage = () => {
@@ -9,6 +12,7 @@ const NewProductPage = () => {
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(false);
   const [uploading, setUploading] = useState(false);
+  const [editorState, setEditorState] = useState(EditorState.createEmpty());
   const [formData, setFormData] = useState({
     name: '',
     description: '',
@@ -24,9 +28,11 @@ const NewProductPage = () => {
       try {
         const response = await fetch('/api/categories');
         const data = await response.json();
-        setCategories(data);
+        console.log('Полученные категории:', data);
+        setCategories(Array.isArray(data) ? data : []);
       } catch (error) {
         console.error('Ошибка при загрузке категорий:', error);
+        setCategories([]);
       }
     };
 
@@ -38,6 +44,19 @@ const NewProductPage = () => {
     setFormData(prev => ({
       ...prev,
       [name]: type === 'checkbox' ? checked : value
+    }));
+  };
+
+  const onEditorStateChange = (newEditorState) => {
+    setEditorState(newEditorState);
+    const contentState = newEditorState.getCurrentContent();
+    
+    // Сохраняем только текст из блоков
+    const plainText = contentState.getPlainText();
+    
+    setFormData(prev => ({
+      ...prev,
+      description: plainText
     }));
   };
 
@@ -136,12 +155,19 @@ const NewProductPage = () => {
         
         <div className={styles.formGroup}>
           <label htmlFor="description">Описание</label>
-          <textarea
-            id="description"
-            name="description"
-            value={formData.description}
-            onChange={handleChange}
-            rows="4"
+          <Editor
+            editorState={editorState}
+            onEditorStateChange={onEditorStateChange}
+            wrapperClassName={styles.editorWrapper}
+            editorClassName={styles.editorContent}
+            toolbarClassName={styles.editorToolbar}
+            toolbar={{
+              options: ['inline', 'blockType', 'list', 'textAlign', 'link', 'emoji', 'history'],
+              inline: {
+                options: ['bold', 'italic', 'underline', 'strikethrough'],
+              },
+            }}
+            placeholder="Введите описание товара..."
           />
         </div>
         

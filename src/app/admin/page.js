@@ -21,7 +21,8 @@ const AdminPage = () => {
         // Загрузка категорий
         const categoriesResponse = await fetch('/api/categories');
         const categoriesData = await categoriesResponse.json();
-        setCategories(categoriesData || []);
+        console.log('Полученные категории:', categoriesData);
+        setCategories(Array.isArray(categoriesData) ? categoriesData : []);
 
         setLoading(false);
       } catch (error) {

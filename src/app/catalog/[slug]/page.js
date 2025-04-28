@@ -7,13 +7,64 @@ import Link from 'next/link';
 import styles from './product.module.css';
 import Header from '@/components/Header/Header';
 import Footer from '@/components/Footer/Footer.jsx';
+import { useCart } from "@/context/CartContext";
+
+// Функция для преобразования JSON-описания в HTML
+const convertDescriptionToHtml = (description) => {
+  if (!description) return 'Описание отсутствует';
+  
+  try {
+    // Пробуем распарсить как JSON
+    const rawContent = JSON.parse(description);
+    
+    // Преобразуем rawContent в HTML
+    let htmlContent = '';
+    rawContent.blocks.forEach(block => {
+      let text = block.text;
+      
+      // Применяем стили
+      block.inlineStyleRanges.forEach(style => {
+        const start = style.offset;
+        const end = start + style.length;
+        const styledText = text.substring(start, end);
+        
+        switch (style.style) {
+          case 'BOLD':
+            text = text.substring(0, start) + `<strong>${styledText}</strong>` + text.substring(end);
+            break;
+          case 'ITALIC':
+            text = text.substring(0, start) + `<em>${styledText}</em>` + text.substring(end);
+            break;
+          case 'UNDERLINE':
+            text = text.substring(0, start) + `<u>${styledText}</u>` + text.substring(end);
+            break;
+          case 'STRIKETHROUGH':
+            text = text.substring(0, start) + `<s>${styledText}</s>` + text.substring(end);
+            break;
+          default:
+            break;
+        }
+      });
+      
+      // Добавляем перенос строки после каждого блока
+      htmlContent += text + '<br/>';
+    });
+    
+    return htmlContent;
+  } catch (e) {
+    // Если не JSON, возвращаем как есть
+    return description;
+  }
+};
 
 export default function ProductPage() {
   const { slug } = useParams();
+  const { addToCart, cart } = useCart();
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
   const [selectedImage, setSelectedImage] = useState(0);
   const [quantity, setQuantity] = useState(1);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -31,14 +82,16 @@ export default function ProductPage() {
     fetchProduct();
   }, [slug]);
 
-  const handleQuantityChange = (value) => {
-    const newQuantity = Math.max(1, Math.min(value, 10));
-    setQuantity(newQuantity);
+  const handleQuantityChange = (newQuantity) => {
+    if (newQuantity >= 1 && newQuantity <= 10) {
+      setQuantity(newQuantity);
+    }
   };
 
   const handleAddToCart = () => {
-    // Здесь будет логика добавления в корзину
-    console.log('Добавлено в корзину:', { product, quantity });
+    if (product) {
+      addToCart(product, quantity);
+    }
   };
 
   if (loading) {
@@ -142,7 +195,12 @@ export default function ProductPage() {
 
               <div className={styles.description}>
                 <h2 className={styles.descriptionTitle}>Описание</h2>
-                <p>{product.description || 'Описание отсутствует'}</p>
+                <div 
+                  className={styles.descriptionContent}
+                  dangerouslySetInnerHTML={{ 
+                    __html: convertDescriptionToHtml(product.description) 
+                  }}
+                />
               </div>
 
               {product.inStock && (
@@ -176,7 +234,9 @@ export default function ProductPage() {
                     className={styles.addToCartButton}
                     onClick={handleAddToCart}
                   >
-                    Добавить в корзину
+                    {cart.find(item => item._id.toString() === product._id.toString())
+                      ? 'В корзине'
+                      : 'Добавить в корзину'}
                   </button>
                 </div>
               )}

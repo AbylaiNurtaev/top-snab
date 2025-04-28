@@ -3,6 +3,9 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
+import { EditorState, convertToRaw, ContentState } from 'draft-js';
+import { Editor } from 'react-draft-wysiwyg';
+import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import styles from '../../../admin/admin.module.css';
 
 const EditProductPage = ({ params }) => {
@@ -11,6 +14,7 @@ const EditProductPage = ({ params }) => {
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
   const [deletingImage, setDeletingImage] = useState(null);
+  const [editorState, setEditorState] = useState(EditorState.createEmpty());
   const [formData, setFormData] = useState({
     name: '',
     description: '',
@@ -43,6 +47,23 @@ const EditProductPage = ({ params }) => {
             specifications: productData.specifications || {},
             inStock: productData.inStock !== undefined ? productData.inStock : true
           });
+
+          // Инициализация редактора с существующим описанием
+          if (productData.description) {
+            try {
+              // Пробуем распарсить как JSON
+              const contentState = ContentState.createFromText(
+                typeof productData.description === 'string' && productData.description.startsWith('{')
+                  ? JSON.parse(productData.description).blocks.map(block => block.text).join('\n')
+                  : productData.description
+              );
+              setEditorState(EditorState.createWithContent(contentState));
+            } catch (error) {
+              // Если не удалось распарсить, используем как обычный текст
+              const contentState = ContentState.createFromText(productData.description);
+              setEditorState(EditorState.createWithContent(contentState));
+            }
+          }
         }
         
         setLoading(false);
@@ -60,6 +81,20 @@ const EditProductPage = ({ params }) => {
     setFormData(prev => ({
       ...prev,
       [name]: type === 'checkbox' ? checked : value
+    }));
+  };
+
+  const onEditorStateChange = (newEditorState) => {
+    setEditorState(newEditorState);
+    const contentState = newEditorState.getCurrentContent();
+    const rawContent = convertToRaw(contentState);
+    
+    // Сохраняем только текст из блоков
+    const plainText = contentState.getPlainText();
+    
+    setFormData(prev => ({
+      ...prev,
+      description: plainText
     }));
   };
 
@@ -192,12 +227,19 @@ const EditProductPage = ({ params }) => {
         
         <div className={styles.formGroup}>
           <label htmlFor="description">Описание</label>
-          <textarea
-            id="description"
-            name="description"
-            value={formData.description}
-            onChange={handleChange}
-            rows="4"
+          <Editor
+            editorState={editorState}
+            onEditorStateChange={onEditorStateChange}
+            wrapperClassName={styles.editorWrapper}
+            editorClassName={styles.editorContent}
+            toolbarClassName={styles.editorToolbar}
+            toolbar={{
+              options: ['inline', 'blockType', 'list', 'textAlign', 'link', 'emoji', 'history'],
+              inline: {
+                options: ['bold', 'italic', 'underline', 'strikethrough'],
+              },
+            }}
+            placeholder="Введите описание товара..."
           />
         </div>
         
